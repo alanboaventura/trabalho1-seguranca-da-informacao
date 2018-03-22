@@ -24,7 +24,7 @@ public class CifraDeBoaventura {
         for (int i = 0; i < textSize; i++) {
             char charAt = text.charAt(i);
 
-            if (charAt == ' ' || Character.isDigit(charAt)) { // Se for um espaço ou digito, apenas o concatena com o resultado.
+            if (!Character.isAlphabetic(charAt)) { // Se for um espaço ou digito, apenas o concatena com o resultado.
                 encryptedText.append(charAt);
                 continue;
             }
@@ -73,7 +73,7 @@ public class CifraDeBoaventura {
         for (int i = 0; i < textSize; i++) {
             char charAt = encryptedText.charAt(i);
 
-            if (charAt == ' ' || Character.isDigit(charAt)) { // Se for um espaço ou digito, apenas o concatena com o resultado.
+            if (!Character.isAlphabetic(charAt)) { // Se for um espaço ou digito, apenas o concatena com o resultado.
                 decryptedText.append(charAt);
                 continue;
             }

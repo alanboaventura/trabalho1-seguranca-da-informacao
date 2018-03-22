@@ -26,10 +26,17 @@ public class Main extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         separator = new javax.swing.JSeparator();
         lblInfo = new javax.swing.JLabel();
+        lblResultado = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        outputResultado = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
+        setBounds(new java.awt.Rectangle(0, 0, 280, 261));
+        setMinimumSize(new java.awt.Dimension(280, 261));
+        setPreferredSize(new java.awt.Dimension(280, 325));
         setResizable(false);
+        setSize(new java.awt.Dimension(280, 261));
 
         btnEncrypt.setText("Criptografar");
         btnEncrypt.addActionListener(new java.awt.event.ActionListener() {
@@ -61,6 +68,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        lblResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblResultado.setText("Resultado");
+
+        outputResultado.setVisible(false);
+        outputResultado.setEditable(false);
+        jScrollPane1.setViewportView(outputResultado);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -69,8 +83,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(lblInfo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -79,11 +93,13 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(inputText)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                                 .addComponent(btnDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(inputKey)
-                            .addComponent(lblKey, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblKey, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblResultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -103,11 +119,15 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(lblKey)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblResultado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEncrypt)
                     .addComponent(btnDecrypt))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -127,7 +147,10 @@ public class Main extends javax.swing.JFrame {
 
             String encryptedText = CifraDeBoaventura.encrypt(text, key);
 
-            JOptionPane.showMessageDialog(null, "Texto criptografado:\n\n" + encryptedText, "Resultado", 1);
+            lblResultado.setVisible(true);
+            outputResultado.setVisible(true);
+
+            outputResultado.setText(encryptedText);
         }
     }//GEN-LAST:event_btnEncryptActionPerformed
 
@@ -135,13 +158,16 @@ public class Main extends javax.swing.JFrame {
         if (isFormValid()) {
             String text = inputText.getText();
 
-            text = text.replaceAll("\\d", ""); // Remove todos digitos (0-9).
-            text = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); // Remove os acentos.
+            // Remove os acentos.
+            text = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
             int key = Integer.parseInt(inputKey.getText());
 
             String decryptedText = CifraDeBoaventura.decrypt(text, key);
 
-            JOptionPane.showMessageDialog(null, "Texto descriptografado:\n\n" + decryptedText, "Resultado", 1);
+            lblResultado.setVisible(true);
+            outputResultado.setVisible(true);
+
+            outputResultado.setText(decryptedText);
         }
     }//GEN-LAST:event_btnDecryptActionPerformed
 
@@ -198,10 +224,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnEncrypt;
     private javax.swing.JTextField inputKey;
     private javax.swing.JTextField inputText;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblKey;
+    private javax.swing.JLabel lblResultado;
     private javax.swing.JLabel lblText;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTextPane outputResultado;
     private javax.swing.JSeparator separator;
     // End of variables declaration//GEN-END:variables
 }
